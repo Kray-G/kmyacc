@@ -1,0 +1,12 @@
+#ARCHNAME = $(notdir $(shell /bin/pwd))
+MAKE = nmake -f Makefile.msc
+
+all:
+	cd src
+	$(MAKE) all
+	cd ..
+
+clean:
+	cd src
+	$(MAKE) clean
+	cd ..
