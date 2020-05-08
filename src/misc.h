@@ -13,7 +13,7 @@ struct flexstr {
 extern char *extension(char *path);
 extern void error1(char *fmt, char *x);
 extern void error(char *fmt);
-extern void die(char *msg);
+NORETURN_B extern void die(char *msg) NORETURN_A;
 extern void die1(char *msg, char *str);
 extern List *nreverse(List *p);
 extern List *sortlist(List *p, int (*compar)());

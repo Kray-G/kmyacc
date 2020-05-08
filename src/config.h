@@ -9,7 +9,11 @@
 #endif /* HAS_STDLIB */
 
 #ifndef PARSERBASE
+#if defined(_WIN32) || defined(_WIN64)
+# define PARSERBASE "."
+#else
 # define PARSERBASE "/usr/local/lib/kmyacc"
+#endif /* _WIN32 | _WIN64 */
 #endif /* PARSERBASE */
 
 #define MAXTERM 512		/* Maximum number of terminals */

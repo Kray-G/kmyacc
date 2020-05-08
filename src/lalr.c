@@ -704,6 +704,7 @@ int cmpprec(int pnum, Gsym x)
   case A_NON:		/* Non-associative, error */
     return (NON_ASSOC);
   }
+  return (0);
 }
 
 

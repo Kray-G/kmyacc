@@ -14,3 +14,11 @@ typedef int bool;
 
 #define global
 #define private static
+
+#if defined(_MSC_VER)
+#define NORETURN_B __declspec(noreturn)
+#define NORETURN_A
+#elif defined(__GNUC__)
+#define NORETURN_B
+#define NORETURN_A __attribute__((__noreturn__))
+#endif

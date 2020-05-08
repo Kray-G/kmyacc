@@ -95,8 +95,11 @@ static char M_SYNTAX[] = "Syntax error near '%s'";
 
 
 
-
+#if defined(_WIN64) || defined(__x86_64__)
+#define hash(s) (((unsigned long long)s) >> 3)
+#else
 #define hash(s) (((unsigned)s) >> 3)
+#endif
 
 /* Return a symbol which corresponds to string s */
 Symbol *intern(char *s)

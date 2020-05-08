@@ -1,0 +1,57 @@
+# Makefile for KM-yacc
+
+#PREFIX = /usr/local
+#bindir = $(PREFIX)/bin
+#libdir = $(PREFIX)/lib
+PARLIB = .
+
+INSTALL = install
+
+#CC = cl
+
+CFLAGS = /O2
+
+
+OBJS = yacc.obj grammar.obj token.obj lalr.obj misc.obj genparser.obj compress.obj
+PROGRAM = kmyacc.exe
+
+all: $(PROGRAM)
+
+$(PROGRAM): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) /Fe$(PROGRAM)
+
+clean:
+	del /q core *.bak *.obj *.obj $(PROGRAM) tokentest.exe
+
+depend:
+	./genhead yacc yacc.c
+	./genhead grammar grammar.c
+	./genhead lalr lalr.c
+	./genhead token token.c
+	./genhead misc misc.c
+	./genhead genparser genparser.c
+	./genhead compress compress.c
+	./makedepend $(DEFS) *.c
+
+
+TOBJS = tokentest.obj token.obj misc.obj
+tokentest: $(TOBJS)
+	$(CC) $(CFLAGS) $(TOBJS) /Fetokentest.exe
+
+
+install: $(PROGRAM)
+
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+compress.obj: compress.c config.h common.h token.h yacc.h misc.h \
+ grammar.h lalr.h compress.h
+genparser.obj: genparser.c config.h common.h token.h yacc.h misc.h \
+ grammar.h lalr.h compress.h genparser.h
+grammar.obj: grammar.c config.h common.h yacc.h misc.h token.h \
+ genparser.h grammar.h
+lalr.obj: lalr.c config.h common.h yacc.h misc.h lalr.h grammar.h
+misc.obj: misc.c config.h common.h yacc.h misc.h
+token.obj: token.c config.h common.h yacc.h token.h misc.h
+tokentest.obj: tokentest.c token.h
+yacc.obj: yacc.c config.h common.h misc.h token.h grammar.h lalr.h \
+ genparser.h yacc.h
