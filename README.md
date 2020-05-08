@@ -1,11 +1,11 @@
 # kmyacc
 
-## Special Thanks.
+## Special Thanks
 
 Tribute to Mr. MORI Koichiro.
-Thanks for providing a great parser generator compatible with yacc.
+Many thanks for providing a great parser generator compatible with yacc.
 
-Please see the originl README file.
+Please see the original README file.
 
 * [README](README)
 * [README.moriyoshi](README.moriyoshi)
