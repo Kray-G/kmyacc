@@ -9,7 +9,7 @@ INSTALL = install
 
 #CC = cl
 
-CFLAGS = /O2
+CFLAGS = /O2 /MT
 
 
 OBJS = yacc.obj grammar.obj token.obj lalr.obj misc.obj genparser.obj compress.obj
