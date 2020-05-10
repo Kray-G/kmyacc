@@ -2,7 +2,7 @@
 
 ## Special Thanks
 
-Tribute to Mr. MORI Koichiro.
+Tribute to the late Mr. MORI Koichiro.
 Many thanks for providing a great parser generator compatible with yacc.
 
 Please see the original README file.
@@ -10,7 +10,7 @@ Please see the original README file.
 * [README](README)
 * [README.moriyoshi](README.moriyoshi)
 
-The following README is the document converted to Markdown of the original [README](README) file with a little modifications below.
+The following is the document converted to Markdown of the original [README](README) file with a little modifications as below.
 
 * Modified for Markdown document style.
 * Added the instruction to build on Windows.
@@ -41,8 +41,7 @@ kmyacc is an LALR(1) parser generator, hopefully compatible with AT&T yacc.
 ### Windows
 
 1. You must have Visual C compiler.
-2. Read Makefile and change macro BIN and PARLIB appropriately.
-3. Type
+2. Type
 
         nmake -f Makefile.msc
 
