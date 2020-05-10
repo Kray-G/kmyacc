@@ -10,10 +10,11 @@ Please see the original README file.
 * [README](README)
 * [README.moriyoshi](README.moriyoshi)
 
-The following is the document converted to Markdown of the original [README](README) file with a little modifications as below.
+The following is the document converted to Markdown of the original [README](README) file with a little modifications.
 
-* Modified for Markdown document style.
-* Added the instruction to build on Windows.
+* Modifications:
+  * Modified for Markdown document style.
+  * Added the instruction to build on Windows.
 
 ---
 
