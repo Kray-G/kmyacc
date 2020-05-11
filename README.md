@@ -14,6 +14,7 @@ The following is the document converted to Markdown of the original [README](REA
 
 * Modifications:
   * Modified for Markdown document style.
+  * Updated a current supported language list.
   * Added the instruction to build on Windows.
 
 ---
@@ -25,7 +26,16 @@ kmyacc is an LALR(1) parser generator, hopefully compatible with AT&T yacc.
 ## Features
 
 - Generates smaller table than Yacc/Berkeley yacc/Bison.
-- Supports multi-language (currenly C and Java).
+- Supports multi-language.
+    - C
+    - Java
+    - JavaScript
+    - Perl
+    - Python
+    - ActionScript
+    - PHP
+    - C#
+    - HSP
 
 
 ## Install
@@ -75,7 +85,7 @@ creates parser code "Foo.java", its class name is "Foo".
 | `-a`       | Makes semantic actions individual functions rather than blocks in one switch statement.  This option is useful if your compiler can not compile big functions/methods.                                                                 |
 | `-b X`     | Uses X rather than y as the prefix of generated filenames. X.tab.c for C, X.java for Java.                                                                                                                                             |
 | `-p XX`    | Uses XX rather than yy as the prefix of global identifiers in the parser.  You can avoid collision of external symbols when you use more than one parser in the same program by specifing this option. (C language only)               |
-| `-m MODEL` | Uses file MODEL as prototype of parser code. When defaulted, file /usr/local/lib/kmyacc.LANG.parser is taken, where LANG is a host language name deduced from source file extension(.y/.jy), or one specified by -L switch explicitly. |
+| `-m MODEL` | Uses file MODEL as prototype of parser code. When defaulted, file /usr/local/lib/kmyacc.LANG.parser is taken on Linux or $(exe folder)/kmyacc.LANG.parser on Windows, where LANG is a host language name deduced from source file extension(.y/.jy), or one specified by -L switch explicitly. |
 | `-L LANG`  | Specifies LANG as host programming language. c,java,javascript,perl are available.                                                                                                                                                     |
 | `-n`       | Allows referencing semantic values by name.                                                                                                                                                                                            |
 | `-i`       | Inhibits referencing semantic values by $$, $1, $2 form.                                                                                                                                                                               |
