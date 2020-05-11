@@ -42,7 +42,8 @@ kmyacc is an LALR(1) parser generator, hopefully compatible with AT&T yacc.
 ### Windows
 
 1. You must have Visual C compiler.
-2. Type
+2. Read Makefile.msc and change macro PARLIB appropriately.
+3. Type
 
         nmake -f Makefile.msc
 
