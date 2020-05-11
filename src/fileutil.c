@@ -66,10 +66,12 @@ char* get_exe_path(void)
     if (!s_result[0]) {
         char* p;
         char exe_full_path[PATH_MAX];
-        readlink("/proc/self/exe", exe_full_path, PATH_MAX);
-        strncpy(s_result, exe_full_path, 2040);
-        p = strrchr(s_result, '/');
-        if (p) *p = 0;
+        ssize_t s = readlink("/proc/self/exe", exe_full_path, PATH_MAX);
+        if (s > 0) {
+            strncpy(s_result, exe_full_path, 2040);
+            p = strrchr(s_result, '/');
+            if (p) *p = 0;
+        }
     }
 
     return s_result;
