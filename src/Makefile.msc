@@ -17,6 +17,8 @@ PROGRAM = kmyacc.exe
 
 all: $(PROGRAM)
 
+tokentest: tokentest.exe
+
 $(PROGRAM): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) /Fe$(PROGRAM)
 
@@ -35,7 +37,7 @@ depend:
 
 
 TOBJS = tokentest.obj token.obj misc.obj
-tokentest: $(TOBJS)
+tokentest.exe: $(TOBJS)
 	$(CC) $(CFLAGS) $(TOBJS) /Fetokentest.exe
 
 

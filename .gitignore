@@ -1,4 +1,4 @@
 *.o
 *.obj
+*.exe
 kmyacc
-kmyacc.exe

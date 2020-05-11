@@ -6,6 +6,11 @@ all:
 	$(MAKE) all
 	cd ..
 
+tokentest:
+	cd src
+	$(MAKE) tokentest
+	cd ..
+
 clean:
 	cd src
 	$(MAKE) clean
