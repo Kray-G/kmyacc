@@ -22,6 +22,7 @@
 #include "grammar.h"
 #include "lalr.h"
 #include "compress.h"
+#include "fileutil.h"
 
 #include "genparser.h"
 
@@ -259,7 +260,11 @@ global char *parser_modelfilename(char *parser_base)
 #ifndef MSDOS
   strcat(fn, ".parser");
 #endif /* !MSDOS */
+#if defined(_WIN32) || defined(_WIN64)
+  return make_path(get_exe_path(), fn);
+#else
   return fn;
+#endif
 }
 
 

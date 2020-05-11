@@ -12,7 +12,7 @@ INSTALL = install
 CFLAGS = -Wall -O2 '-DPARSERBASE="$(PARLIB)"'
 
 
-OBJS = yacc.o grammar.o token.o lalr.o misc.o genparser.o compress.o
+OBJS = yacc.o grammar.o token.o lalr.o misc.o genparser.o compress.o fileutil.o
 PROGRAM = kmyacc
 
 all: $(PROGRAM)
@@ -68,3 +68,4 @@ token.o: token.c config.h common.h yacc.h token.h misc.h
 tokentest.o: tokentest.c token.h
 yacc.o: yacc.c config.h common.h misc.h token.h grammar.h lalr.h \
  genparser.h yacc.h
+fileutil.o: fileutil.c

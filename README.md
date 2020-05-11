@@ -33,8 +33,7 @@ kmyacc is an LALR(1) parser generator, hopefully compatible with AT&T yacc.
 ### Linux
 
 1. You must have ANSI C compiler.
-2. Read Makefile and change macro BIN and PARLIB appropriately.
-3. Type
+2. Type
 
         make
         make install

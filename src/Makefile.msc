@@ -3,7 +3,7 @@
 #PREFIX = /usr/local
 #bindir = $(PREFIX)/bin
 #libdir = $(PREFIX)/lib
-PARLIB = .
+#PARLIB = .
 
 INSTALL = install
 
@@ -12,7 +12,7 @@ INSTALL = install
 CFLAGS = /O2 /MT
 
 
-OBJS = yacc.obj grammar.obj token.obj lalr.obj misc.obj genparser.obj compress.obj
+OBJS = yacc.obj grammar.obj token.obj lalr.obj misc.obj genparser.obj compress.obj fileutil.obj
 PROGRAM = kmyacc.exe
 
 all: $(PROGRAM)
@@ -57,3 +57,4 @@ token.obj: token.c config.h common.h yacc.h token.h misc.h
 tokentest.obj: tokentest.c token.h
 yacc.obj: yacc.c config.h common.h misc.h token.h grammar.h lalr.h \
  genparser.h yacc.h
+fileutil.obj: fileutil.c

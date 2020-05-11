@@ -10,7 +10,7 @@
 
 #ifndef PARSERBASE
 #if defined(_WIN32) || defined(_WIN64)
-# define PARSERBASE "."
+# define PARSERBASE "kmyacc"
 #else
 # define PARSERBASE "/usr/local/lib/kmyacc"
 #endif /* _WIN32 | _WIN64 */
