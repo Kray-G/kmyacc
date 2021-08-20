@@ -16,6 +16,9 @@ The following is the document converted to Markdown of the original [README](REA
   * Modified for Markdown document style.
   * Updated a current supported language list.
   * Added the instruction to build on Windows.
+  * Added [Kinx](https://github.com/Kray-G/kinx) to the host language.
+
+Please note that the version number was not changed despite some modifications.
 
 ---
 
@@ -36,6 +39,7 @@ kmyacc is an LALR(1) parser generator, hopefully compatible with AT&T yacc.
     - PHP
     - C#
     - HSP
+    - Kinx
 
 
 ## Install

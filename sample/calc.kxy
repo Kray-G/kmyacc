@@ -1,0 +1,119 @@
+/* Calculator in kmyacc + Kinx. */
+
+%{
+%}
+
+%token NUMBER IDENTIFIER
+
+%left '+' '-'
+%left '*' '/'
+
+%%
+
+start:    lines;
+
+lines
+    : line { $$ = $1; }
+    | lines ',' line { $$ = $3; }
+    | error { $$ = ""; }
+    ;
+
+line
+    : assign  { $$ = $1; }
+    | expr  { $$ = $1; }
+    ;
+
+assign
+    : IDENTIFIER '=' expr { @setVar($1.value, $3.value); $$ = $3; }
+    ;
+
+expr
+    : expr '+' expr { $$.value = $1.value + $3.value; }
+    | expr '-' expr { $$.value = $1.value - $3.value; }
+    | expr '*' expr { $$.value = $1.value * $3.value; }
+    | expr '/' expr { $$.value = $1.value / $3.value; }
+    | '(' expr ')' { $$ = $2; }
+    | NUMBER { $$ = $1; }
+    | IDENTIFIER { $$.value = @getVar($1.value); }
+    ;
+
+%%
+
+/* Lexical analyzer */
+
+class Lexer {
+
+    var pos_, len_;
+    var buffer_;
+
+    public reset(buf) {
+        pos_ = 0;
+        len_ = buf.length();
+        buffer_ = buf;
+    }
+
+    private isletter(c) {
+        return ('a'[0] <= c && c <= 'z'[0]) || ('A'[0] <= c && c <= 'Z'[0]);
+    }
+
+    private isdigit(c) {
+        return ('0'[0] <= c && c <= '9'[0]);
+    }
+
+    public yylex(yylval) {
+        while (pos_ < len_ && (buffer_[pos_] == ' '[0] || buffer_[pos_] == '\t'[0])) {
+            ++pos_;
+        }
+        if (pos_ >= len_)
+            return 0;
+        if (isletter(buffer_[pos_])) {
+            var i;
+            for (i = pos_ + 1; i < len_; ++i) {
+                if (!isletter(buffer_[i]) && !isdigit(buffer_[i]))
+                    break;
+            }
+            yylval.value = buffer_.subString(pos_, i - pos_);
+            pos_ = i;
+            return IDENTIFIER;
+        } else if (isdigit(buffer_[pos_])) {
+            var i;
+            for (i = pos_ + 1; i < len_; ++i) {
+                if (!isdigit(buffer_[i]))
+                    break;
+            }
+            var token = buffer_.subString(pos_, i - pos_);
+            yylval.value = Integer.parseInt(token);
+            pos_ = i;
+            return NUMBER;
+        } else {
+            var token = buffer_.subString(pos_, 1);
+            ++pos_;
+            return token[0];
+        }
+    }
+
+}
+
+var error_;
+var vars = {};
+var parser = new Kacc.Parser(new Lexer(), {
+    yyerror: &(msg) => {
+        error_ = true;
+        System.println("ERROR! " + msg);
+    },
+    setVar: &(name, value) => {
+        vars[name] = value;
+    },
+    getVar: &(name) => {
+        return vars[name];
+    }
+});
+
+["2+3", "3 + 5 * 9", "c=24", "a 1", "a=10, b=70, a+b+c"].each { &(expr)
+    parser.parse(expr) { &(r)
+        if (!error_) {
+            System.println(expr, " = ", r.value);
+        }
+        error_ = false;
+    };
+};

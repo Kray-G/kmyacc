@@ -110,6 +110,7 @@ private LANGMAP langmap[] = {
   { LANG_CSHARP, "csharp", ".cs", ".csy" },
   { LANG_AS, "as", ".as", ".asy" },
   { LANG_HSP, "hsp", ".hsp", ".hspy" },
+  { LANG_KINX, "kinx", ".kx", ".kxy" },
   { -1, NULL, NULL, NULL }
 };
 
@@ -324,7 +325,7 @@ global void parser_create(char *fn, bool tflag)
 }
 
 
-  
+
 
 global void parser_begin_copying()
 {
@@ -404,7 +405,7 @@ private char *skipnosp(char *s)
   while (*s && !isspace(*s))
     s++;
   return s;
-} 
+}
 
 private char *quote(char *s)
 {
@@ -535,7 +536,7 @@ global char *parser_dollar(int dollartype, int nth, int len, char *typename)
   return buf;
 }
 
-        
+
 
 /* Make class name from filename */
 void class_name(char *buf, char *filename)
@@ -620,7 +621,7 @@ void gen_enoughtypeof(char *buf, char *var)
 {
   short *p;
   int n;
-  
+
   if (strcmp(var, "yytranslate") == 0)
     p = yytranslate, n = yytranslatesize;
   else if (strcmp(var, "yycheck") == 0)

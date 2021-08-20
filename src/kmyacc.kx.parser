@@ -1,0 +1,349 @@
+
+$semval($) yyval
+$semval($,%t) yyval
+$semval(%n) yyastk[yysp-(%l-%n)]
+$semval(%n,%t) yyastk[yysp-(%l-%n)]
+$include;
+
+$tokenval
+const %s = %n;
+$endtokenval
+
+$ifnot -p
+namespace Kacc {
+$endif
+$if -p
+namespace $(-p) {
+$endif
+
+/* Prototype file of Kinx parser.
+ * Written by Kray-G
+ * This file is PUBLIC DOMAIN.
+ */
+
+class Parser(lexer_, opts_) {
+
+    /*
+    #define yyclearin (yychar = -1)
+    #define yyerrok (yyerrflag = 0)
+    #define YYRECOVERING (yyerrflag != 0)
+    #define YYERROR  goto yyerrlab
+    */
+
+    var value_;
+    var yyerror = opts_.yyerror ?? System.println;
+
+    private initialize() {
+        opts_.keySet().each {
+            if (opts_[_1].isFunction) {
+                this[_1] = opts_[_1];
+            }
+        };
+    }
+
+    private yyprintln(msg) {
+        System.println(msg);
+    }
+
+    /* Debug mode flag */
+$ifnot -t
+    @yydebug = false;
+$endif
+
+$if -t
+    @yydebug = true;
+
+    const yyterminals = [
+        $listvar terminals
+        , "???"
+        ];
+
+
+    private yytokname(n) {
+        switch (n) {
+            $switch-for-token-name;
+        default:
+            return "???";
+        }
+    }
+
+    const yyproduction = [
+        $production-strings;
+    ];
+
+    /* Traditional Debug Mode */
+    private YYTRACE_NEWSTATE(state, sym) {
+        if (@yydebug)
+            yyprintln("% State " + state + ", Lookahead " + (sym < 0 ? "--none--" : yyterminals[sym]));
+    }
+
+    private YYTRACE_READ(sym) {
+        if (@yydebug)
+            yyprintln("% Reading " + yyterminals[sym]);
+    }
+
+    private YYTRACE_SHIFT(sym) {
+        if (@yydebug)
+            yyprintln("% Shift " + yyterminals[sym]);
+    }
+
+    private YYTRACE_ACCEPT() {
+        if (@yydebug)
+            yyprintln("% Accepted.");
+    }
+
+    private YYTRACE_REDUCE(n) {
+        if (@yydebug)
+            yyprintln("% Reduce by (" + n + ") " + yyproduction[n]);
+    }
+
+    private YYTRACE_POP(state) {
+        if (@yydebug)
+            yyprintln("% Recovering, uncovers state " + state);
+    }
+
+    private YYTRACE_DISCARD(sym) {
+        if (@yydebug)
+            yyprintln("% Discard " + yyterminals[sym]);
+    }
+$endif
+
+    const yytranslate = [
+        $listvar yytranslate
+    ];
+
+    const YYBADCH = $(YYBADCH);
+    const YYMAXLEX = $(YYMAXLEX);
+    const YYTERMS = $(YYTERMS);
+    const YYNONTERMS = $(YYNONTERMS);
+
+    const yyaction = [
+        $listvar yyaction
+    ];
+
+    const YYLAST = $(YYLAST);
+
+    const yycheck = [
+        $listvar yycheck
+    ];
+
+    const yybase = [
+        $listvar yybase
+    ];
+
+    const YY2TBLSTATE = $(YY2TBLSTATE);
+
+    const yydefault = [
+        $listvar yydefault
+    ];
+
+    const yygoto = [
+        $listvar yygoto
+    ];
+
+    const YYGLAST = $(YYGLAST);
+
+    const yygcheck = [
+        $listvar yygcheck
+    ];
+
+    const yygbase = [
+        $listvar yygbase
+    ];
+
+    const yygdefault = [
+        $listvar yygdefault
+    ];
+
+    const yylhs = [
+        $listvar yylhs
+    ];
+
+    const yylen = [
+        $listvar yylen
+    ];
+
+    const YYSTATES = $(YYSTATES);
+    const YYNLSTATES = $(YYNLSTATES);
+    const YYINTERRTOK = $(YYINTERRTOK);
+    const YYUNEXPECTED = $(YYUNEXPECTED);
+    const YYDEFAULT = $(YYDEFAULT);
+
+    var yylex = lexer_.yylex;
+
+    /*
+    * Parser entry point
+    */
+    private yyparse() {
+        var yyastk = [];
+        var yysstk = [];
+        var yylval, yyn, yysp = 0;
+        var yyerrflag = 0;
+
+        yystate = 0;
+        yychar = -1;
+        yysstk[yysp] = 0;
+
+        while (true) {
+$if -t
+            YYTRACE_NEWSTATE(yystate, yychar);
+$endif
+            if (yybase[yystate] == 0)
+                yyn = yydefault[yystate];
+            else {
+                if (yychar < 0) {
+                    yylval = {};
+                    if ((yychar = yylex(yylval)) <= 0) yychar = 0;
+                    yychar = yychar < YYMAXLEX ? yytranslate[yychar] : YYBADCH;
+$if -t
+                    YYTRACE_READ(yychar);
+$endif
+                }
+
+                if (((yyn = yybase[yystate] + yychar) >= 0
+                    && yyn < YYLAST && yycheck[yyn] == yychar
+                    || (yystate < YY2TBLSTATE
+                        && (yyn = yybase[yystate + YYNLSTATES] + yychar) >= 0
+                        && yyn < YYLAST && yycheck[yyn] == yychar))
+                    && (yyn = yyaction[yyn]) != YYDEFAULT) {
+                    /*
+                    * >= YYNLSTATE: shift and reduce
+                    * > 0: shift
+                    * = 0: accept
+                    * < 0: reduce
+                    * = -YYUNEXPECTED: error
+                    */
+                    if (yyn > 0) {
+                        /* shift */
+$if -t
+                        YYTRACE_SHIFT(yychar);
+$endif
+                        yysp++;
+
+                        yysstk[yysp] = yystate = yyn;
+                        yyastk[yysp] = yylval;
+                        yychar = -1;
+
+                        if (yyerrflag > 0)
+                            yyerrflag--;
+                        if (yyn < YYNLSTATES)
+                            continue;
+
+                        /* yyn >= YYNLSTATES means shift-and-reduce */
+                        yyn -= YYNLSTATES;
+                    } else {
+                        yyn = -yyn;
+                    }
+                } else {
+                    yyn = yydefault[yystate];
+                }
+            }
+
+            while (true) {
+                /* reduce/error */
+                if (yyn == 0) {
+                    /* accept */
+$if -t
+                    YYTRACE_ACCEPT();
+$endif
+                    value_ = yyastk[yysp];
+                    return 0;
+                } else if (yyn != YYUNEXPECTED) {
+                    /* reduce */
+                    yyl = yylen[yyn];
+                    yyval = yyastk[yysp-yyl+1];
+$if -t
+                    YYTRACE_REDUCE(yyn);
+$endif
+                    /* Following line will be replaced by reduce actions */
+                    switch(yyn) {
+$reduce
+                    case %n:
+{%b} break;
+$endreduce
+                    }
+                    /* Goto - shift nonterminal */
+                    yysp -= yyl;
+                    yyn = yylhs[yyn];
+                    if ((yyp = yygbase[yyn] + yysstk[yysp]) >= 0 && yyp < YYGLAST && yygcheck[yyp] == yyn)
+                        yystate = yygoto[yyp];
+                    else
+                        yystate = yygdefault[yyn];
+
+                    yysp++;
+
+                    yysstk[yysp] = yystate;
+                    yyastk[yysp] = yyval;
+                } else {
+                    /* error */
+                    switch (yyerrflag) {
+                    case 0:
+                        yyerror("syntax error");
+                    case 1:
+                    case 2:
+                        yyerrflag = 3;
+                        /* Pop until error-expecting state uncovered */
+
+                        while (!((yyn = yybase[yystate] + YYINTERRTOK) >= 0
+                            && yyn < YYLAST && yycheck[yyn] == YYINTERRTOK
+                            || (yystate < YY2TBLSTATE
+                                && (yyn = yybase[yystate + YYNLSTATES] + YYINTERRTOK) >= 0
+                                && yyn < YYLAST && yycheck[yyn] == YYINTERRTOK))) {
+                            if (yysp <= 0) {
+                                return 1;
+                            }
+                            yystate = yysstk[--yysp];
+$if -t
+                            YYTRACE_POP(yystate);
+$endif
+                        }
+                        yyn = yyaction[yyn];
+$if -t
+                        YYTRACE_SHIFT(YYINTERRTOK);
+$endif
+                        yysstk[++yysp] = yystate = yyn;
+                        break;
+
+                    case 3:
+$if -t
+                        YYTRACE_DISCARD(yychar);
+$endif
+                        if (yychar == 0) {
+                            return 1;
+                        }
+                        yychar = -1;
+                        break;
+                    }
+                }
+
+                if (yystate < YYNLSTATES)
+                    break;
+                /* >= YYNLSTATES means shift-and-reduce */
+                yyn = yystate - YYNLSTATES;
+            }
+        }
+    }
+
+    public onSuccess(value) {
+        value_ = value;
+    }
+
+    public parse(text, successCallback, failureCallback) {
+        lexer_.reset(text);
+        if (yyparse() == 0) {
+            successCallback(value_);
+        } else {
+            failureCallback(value_);
+        }
+    }
+
+}
+
+$ifnot -p
+} // namespace Kacc
+$endif
+$if -p
+} // namespace $(-p)
+$endif
+
+$tailcode;
